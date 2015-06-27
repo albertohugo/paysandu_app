@@ -1,0 +1,8 @@
+Aplicativo para acompanhar o Paysandu nos campeonatos nacionais.
+
+- Tabela do Campeonato Brasileiro Serie B 2015
+- Jogos do Campeonato Brasileiro Serie B 2015
+- Notícias do Paysandu (Twitter)
+- Jogos da Copa do Brasil
+
+Necessário acesso a internet para obter o conteúdo.
