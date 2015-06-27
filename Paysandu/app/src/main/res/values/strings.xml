@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Paysandu</string>
+
+    <string name="title_section1">Tabela</string>
+    <string name="title_section2">Jogos</string>
+    <string name="title_section3">Notícias</string>
+    <string name="title_section4">Copa do Brasil</string>
+
+    <string name="title_section01">Goleiro</string>
+    <string name="title_section02">Zagueiro</string>
+    <string name="title_section03">Lateral Esquerdo</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_copa_brasil">Copa do Brasil</string>
+    <string name="action_brasileirao">Brasileirão</string>
+    <string name="loading">Verifique sua conexão</string>
+    <string name="no_connection">Confira sua conexão e tente novamente</string>
+    <string name="action_noticias">Notícias</string>
+    <string name="action_elenco">Elenco</string>
+</resources>

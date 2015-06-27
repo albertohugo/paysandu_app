@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+
+    <item android:id="@+id/action_brasileirao" android:title="@string/action_brasileirao"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_copa_do_brasil" android:title="@string/action_copa_brasil"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_noticias" android:title="@string/action_noticias"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_elenco" android:title="@string/action_elenco"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
