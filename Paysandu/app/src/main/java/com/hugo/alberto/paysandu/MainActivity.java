@@ -24,6 +24,9 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.Locale;
 
 
@@ -32,6 +35,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     ProgressBar progressBar;
     SectionsPagerAdapter mSectionsPagerAdapter;
 
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     ViewPager mViewPager;
     boolean loadingFinished = true;
@@ -41,13 +46,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/Paysandu\" data-widget-id=\"611196778197721088\"  data-chrome=\"noheader noborders nofooter\" ></a>" +
             "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Theme_AppCompat);
         setContentView(R.layout.activity_main);
+
+
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-64569785-1"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
+
 
 
         final ActionBar actionBar = getSupportActionBar();
