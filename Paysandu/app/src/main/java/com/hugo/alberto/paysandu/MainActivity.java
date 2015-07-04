@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/Paysandu\" data-widget-id=\"611196778197721088\"  data-chrome=\"noheader noborders nofooter\" ></a>" +
             "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
 
+    private WebView webview_jogos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +146,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 break;
             case 2:
                 if (isNetworkAvailable(this)) {
+                    setContentView(R.layout.gols_view);
+                    getGols();
+                } else {
+                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case 3:
+                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.noticias_view);
                     getNoticia();
                 } else {
@@ -151,7 +162,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 }
 
                 break;
-            case 3:
+            case 4:
                 if (isNetworkAvailable(this)) {
                     setContentView(R.layout.copa_brasil_view);
                     getCopaDoBrasil();
@@ -167,13 +178,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private void getJogos() {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("PSC - Brasileiro 2015");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         final WebView webview = (WebView) findViewById(R.id.jogos);
         webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setWebViewClient(new myWebClient() {
             @Override
             public void onLoadResource(WebView view, String url) {
 
@@ -227,14 +238,43 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         webview.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
     }
 
+    private void getGols() {
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("PSC - Brasileiro 2015");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        webview_jogos = (WebView) findViewById(R.id.gols);
+        webview_jogos.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview_jogos.getSettings().setJavaScriptEnabled(true);
+        webview_jogos.setWebViewClient(new myWebClient() {
+            @Override
+            public void onLoadResource(WebView view, String url) {
+
+                webview_jogos.loadUrl("javascript:(function() { " +
+
+                        "document.getElementsByClassName('_meh')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mlf')[0].style.display = 'none'; " +
+                       "document.getElementsByClassName('_mhv _miv')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_myy')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mgz _mhi _mdj')[0].style.display = 'none'; " +
+
+                        "})()");
+            }
+
+        });
+
+        webview_jogos.loadUrl("https://m.youtube.com/channel/UCYEL0BXeHvw10bPq5xCON_Q/videos");
+    }
+
     private void getTabela() {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("PSC - Brasileiro 2015");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         final WebView webview = (WebView) findViewById(R.id.tabela);
         webview.getSettings().setJavaScriptEnabled(true);
-
-        webview.setWebViewClient(new WebViewClient() { //WebViewClient
+        webview.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
             public void onLoadResource(WebView view, String url) {
                 webview.loadUrl("javascript:(function() { " +
@@ -291,12 +331,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void getCopaDoBrasil() {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("PSC - Jogos da Copa do Brasil");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         final WebView webview = (WebView) findViewById(R.id.copa_brasil);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setJavaScriptEnabled(true);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
             public void onLoadResource(WebView view, String url) {
                 webview.loadUrl("javascript:(function() { " +
@@ -354,6 +394,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Check if the key event was the Back button and if there's history
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webview_jogos.canGoBack()) {
+            webview_jogos.goBack();
+            return true;
+        }
+        // If it wasn't the Back key or there's no web page history, bubble up to the default
+        // system behavior (probably exit the activity)
+        return super.onKeyDown(keyCode, event);
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -368,7 +420,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 5;
         }
 
         @Override
@@ -383,6 +435,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     return getString(R.string.title_section3).toUpperCase(l);
                 case 3:
                     return getString(R.string.title_section4).toUpperCase(l);
+                case 4:
+                    return getString(R.string.title_section5).toUpperCase(l);
             }
             return null;
         }
@@ -433,6 +487,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public void onPageFinished(WebView view, String url) {
             if(!redirect){
                 loadingFinished = true;
+
             }
 
             if(loadingFinished && !redirect){

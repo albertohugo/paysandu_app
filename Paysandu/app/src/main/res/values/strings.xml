@@ -3,8 +3,9 @@
 
     <string name="title_section1">Tabela</string>
     <string name="title_section2">Jogos</string>
-    <string name="title_section3">Notícias</string>
-    <string name="title_section4">Copa do Brasil</string>
+    <string name="title_section3">Gols</string>
+    <string name="title_section4">Notícias</string>
+    <string name="title_section5">Copa do Brasil</string>
 
     <string name="title_section01">Goleiro</string>
     <string name="title_section02">Zagueiro</string>
