@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +46,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private static final String widgetInfo = "<a class=\"twitter-timeline\" href=\"https://twitter.com/Paysandu\" data-widget-id=\"611196778197721088\"  data-chrome=\"noheader noborders nofooter\" ></a>" +
             "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
 
-    private WebView webview_jogos;
+    public WebView webview_tabela;
+    public WebView webview_jogos;
+    public WebView webview_gols;
+    public WebView webview_noticias;
+    public WebView webview_copadobrasil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,15 +184,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar.setTitle("PSC - Brasileiro 2015");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        final WebView webview = (WebView) findViewById(R.id.jogos);
-        webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new myWebClient() {
+      webview_jogos = (WebView) findViewById(R.id.jogos);
+        webview_jogos.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview_jogos.getSettings().setJavaScriptEnabled(true);
+        webview_jogos.setWebViewClient(new myWebClient() {
             @Override
             public void onLoadResource(WebView view, String url) {
 
-                webview.loadUrl("javascript:(function() { " +
+                webview_jogos.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[0].removeAttribute('href'); " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[1].removeAttribute('href'); " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[2].removeAttribute('href'); " +
@@ -201,7 +205,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[9].removeAttribute('href'); " +
 
                         "})()");
-                webview.loadUrl("javascript:(function() { " +
+                webview_jogos.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('placar-jogo-complemento')[0].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[1].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[2].style.display = 'none'; " +
@@ -213,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('placar-jogo-complemento')[8].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[9].style.display = 'none'; " +
                         "})()");
-                webview.loadUrl("javascript:(function() { " +
+                webview_jogos.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('glb-topo')[0].style.display = 'none'; " +
 
                         "document.getElementsByClassName('gui-text-section-title tabela-header-titulo')[0].style.display = 'none'; " +
@@ -235,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         });
 
-        webview.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
+        webview_jogos.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
     }
 
     private void getGols() {
@@ -243,15 +247,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar.setTitle("PSC - Brasileiro 2015");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        webview_jogos = (WebView) findViewById(R.id.gols);
-        webview_jogos.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webview_jogos.getSettings().setJavaScriptEnabled(true);
-        webview_jogos.setWebViewClient(new myWebClient() {
+        webview_gols = (WebView) findViewById(R.id.gols);
+        webview_gols.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_gols.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview_gols.getSettings().setJavaScriptEnabled(true);
+        webview_gols.setWebViewClient(new myWebClient() {
             @Override
             public void onLoadResource(WebView view, String url) {
 
-                webview_jogos.loadUrl("javascript:(function() { " +
+                webview_gols.loadUrl("javascript:(function() { " +
 
                         "document.getElementsByClassName('_meh')[0].style.display = 'none'; " +
                         "document.getElementsByClassName('_mlf')[0].style.display = 'none'; " +
@@ -264,7 +268,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         });
 
-        webview_jogos.loadUrl("https://m.youtube.com/channel/UCYEL0BXeHvw10bPq5xCON_Q/videos");
+        webview_gols.loadUrl("https://m.youtube.com/channel/UCYEL0BXeHvw10bPq5xCON_Q/videos");
     }
 
     private void getTabela() {
@@ -272,12 +276,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar.setTitle("PSC - Brasileiro 2015");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        final WebView webview = (WebView) findViewById(R.id.tabela);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new myWebClient() { //WebViewClient
+        webview_tabela = (WebView) findViewById(R.id.tabela);
+        webview_tabela.getSettings().setJavaScriptEnabled(true);
+        webview_tabela.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
             public void onLoadResource(WebView view, String url) {
-                webview.loadUrl("javascript:(function() { " +
+                webview_tabela.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('glb-topo')[0].style.display = 'none'; " +
 
                         "document.getElementsByClassName('gui-text-section-title tabela-header-titulo')[0].style.display = 'none'; " +
@@ -315,17 +319,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        webview.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
+        webview_tabela.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
     }
 
     private void getNoticia() {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("PSC - Notícias");
 
-        WebView webView = (WebView) findViewById(R.id.noticias);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL(baseURl, widgetInfo, "text/html", "UTF-8", null);
+        webview_noticias = (WebView) findViewById(R.id.noticias);
+        webview_noticias.getSettings().setDomStorageEnabled(true);
+        webview_noticias.getSettings().setJavaScriptEnabled(true);
+        webview_noticias.loadDataWithBaseURL(baseURl, widgetInfo, "text/html", "UTF-8", null);
     }
 
     public void getCopaDoBrasil() {
@@ -333,13 +337,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar.setTitle("PSC - Jogos da Copa do Brasil");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        final WebView webview = (WebView) findViewById(R.id.copa_brasil);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new myWebClient() { //WebViewClient
+        webview_copadobrasil = (WebView) findViewById(R.id.copa_brasil);
+        webview_copadobrasil.getSettings().setJavaScriptEnabled(true);
+        webview_copadobrasil.getSettings().setJavaScriptEnabled(true);
+        webview_copadobrasil.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
             public void onLoadResource(WebView view, String url) {
-                webview.loadUrl("javascript:(function() { " +
+                webview_copadobrasil.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[0].removeAttribute('href'); " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[1].removeAttribute('href'); " +
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[2].removeAttribute('href'); " +
@@ -352,7 +356,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('placar-jogo-link placar-jogo-link-confronto-js')[9].removeAttribute('href'); " +
 
                         "})()");
-                webview.loadUrl("javascript:(function() { " +
+                webview_copadobrasil.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('placar-jogo-complemento')[0].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[1].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[2].style.display = 'none'; " +
@@ -364,7 +368,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('placar-jogo-complemento')[8].style.display = 'none'; " +
                         "document.getElementsByClassName('placar-jogo-complemento')[9].style.display = 'none'; " +
                         "})()");
-                webview.loadUrl("javascript:(function() { " +
+                webview_copadobrasil.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('glb-topo')[0].style.display = 'none'; " +
 
                         "document.getElementsByClassName('destaque destaque-publicidade')[0].style.display = 'none'; " +
@@ -379,7 +383,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        webview.loadUrl("http://globoesporte.globo.com/futebol/copa-do-brasil/index.html#/classificacao-e-jogos");
+        webview_copadobrasil.loadUrl("http://globoesporte.globo.com/futebol/copa-do-brasil/index.html#/classificacao-e-jogos");
     }
 
     public static boolean isNetworkAvailable(Context context) {
@@ -392,18 +396,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Check if the key event was the Back button and if there's history
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webview_jogos.canGoBack()) {
-            webview_jogos.goBack();
-            return true;
-        }
-        // If it wasn't the Back key or there's no web page history, bubble up to the default
-        // system behavior (probably exit the activity)
-        return super.onKeyDown(keyCode, event);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
