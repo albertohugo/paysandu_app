@@ -1,8 +1,10 @@
 package com.hugo.alberto.paysandu;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -160,7 +162,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         webview_tabela = (WebView) findViewById(R.id.tabela);
 
         webview_tabela.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_tabela.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable(this)) {
+            webview_tabela.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            webview_tabela.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
         webview_tabela.getSettings().setJavaScriptEnabled(true);
         webview_tabela.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
@@ -214,7 +222,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         webview_jogos = (WebView) findViewById(R.id.jogos);
         webview_jogos.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable(this)) {
+            webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
         webview_jogos.getSettings().setJavaScriptEnabled(true);
         webview_jogos.setWebViewClient(new myWebClient() {
             @Override
@@ -277,7 +291,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         webview_gols = (WebView) findViewById(R.id.gols);
         webview_gols.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_gols.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable(this)) {
+            webview_gols.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            webview_gols.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
         webview_gols.getSettings().setJavaScriptEnabled(true);
         webview_gols.setWebViewClient(new myWebClient() {
             @Override
@@ -310,7 +330,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         webview_noticias = (WebView) findViewById(R.id.noticias);
 
         webview_noticias.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_noticias.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable(this)) {
+            webview_noticias.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            webview_noticias.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
 
         webview_noticias.getSettings().setDomStorageEnabled(true);
         webview_noticias.getSettings().setJavaScriptEnabled(true);
@@ -325,7 +350,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         webview_copadobrasil = (WebView) findViewById(R.id.copa_brasil);
 
         webview_copadobrasil.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_copadobrasil.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        if (isNetworkAvailable(this)) {
+            webview_copadobrasil.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            webview_copadobrasil.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
         webview_copadobrasil.getSettings().setJavaScriptEnabled(true);
 
         webview_copadobrasil.setWebViewClient(new myWebClient() { //WebViewClient
@@ -438,6 +469,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
 
     @Override
