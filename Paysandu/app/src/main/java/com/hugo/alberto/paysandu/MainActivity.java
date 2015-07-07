@@ -1,10 +1,8 @@
 package com.hugo.alberto.paysandu;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,16 +21,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.Locale;
 
-
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
-    private Boolean con = false;
     ProgressBar progressBar;
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -51,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public WebView webview_gols;
     public WebView webview_noticias;
     public WebView webview_copadobrasil;
+    public int tabPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,54 +126,85 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
-        int tabPos = tab.getPosition();
+        tabPos = tab.getPosition();
         switch (tabPos) {
             case 0:
-                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.tabela_view);
                     getTabela();
-                } else {
-                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
                 break;
             case 1:
-                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.jogos_view);
                     getJogos();
-                } else {
-                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
-
                 break;
             case 2:
-                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.gols_view);
                     getGols();
-                } else {
-                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
-
                 break;
             case 3:
-                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.noticias_view);
                     getNoticia();
-                } else {
-                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
-
                 break;
             case 4:
-                if (isNetworkAvailable(this)) {
                     setContentView(R.layout.copa_brasil_view);
                     getCopaDoBrasil();
-                } else {
-                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
-                }
-
                 break;
         }
         mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    private void getTabela() {
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("PSC - Brasileiro 2015");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        webview_tabela = (WebView) findViewById(R.id.tabela);
+
+        webview_tabela.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_tabela.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webview_tabela.getSettings().setJavaScriptEnabled(true);
+        webview_tabela.setWebViewClient(new myWebClient() { //WebViewClient
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                webview_tabela.loadUrl("javascript:(function() { " +
+                        "document.getElementsByClassName('glb-topo')[0].style.display = 'none'; " +
+
+                        "document.getElementsByClassName('gui-text-section-title tabela-header-titulo')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('simulador simulador-extra-margin')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('legenda-regulamento')[0].style.display = 'none'; " +
+
+                        "document.getElementsByClassName('lista-de-jogos lista-de-jogos-fora-grupo')[0].style.display = 'none'; " +
+
+                        "document.getElementsByClassName('tabela-times-time-link')[0].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[1].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[2].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[3].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[4].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[5].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[6].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[7].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[8].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[9].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[10].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[11].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[12].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[13].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[14].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[15].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[16].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[17].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[18].removeAttribute('href');" +
+                        "document.getElementsByClassName('tabela-times-time-link')[19].removeAttribute('href');" +
+
+                        "document.getElementsByClassName('widget widget-plantao-semantico')[0].style.display = 'none'; " +
+
+                        "document.getElementsByClassName('publicidade publicidade-banner_mobile_fim')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('footer product-color')[0].style.display = 'none'; " +
+                        "})()");
+            }
+        });
+
+
+        webview_tabela.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
     }
 
     private void getJogos() {
@@ -184,9 +212,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar.setTitle("PSC - Brasileiro 2015");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-      webview_jogos = (WebView) findViewById(R.id.jogos);
+        webview_jogos = (WebView) findViewById(R.id.jogos);
         webview_jogos.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview_jogos.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webview_jogos.getSettings().setJavaScriptEnabled(true);
         webview_jogos.setWebViewClient(new myWebClient() {
             @Override
@@ -232,7 +260,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                         "document.getElementsByClassName('widget widget-plantao-semantico')[0].style.display = 'none'; " +
 
-                        "document.getElementsByClassName('glb-publicidade-container')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('publicidade publicidade-banner_mobile_fim')[0].style.display = 'none'; " +
                         "document.getElementsByClassName('footer product-color')[0].style.display = 'none'; " +
                         "})()");
             }
@@ -249,7 +277,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         webview_gols = (WebView) findViewById(R.id.gols);
         webview_gols.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webview_gols.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webview_gols.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webview_gols.getSettings().setJavaScriptEnabled(true);
         webview_gols.setWebViewClient(new myWebClient() {
             @Override
@@ -264,6 +292,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('_mgz _mhi _mdj')[0].style.display = 'none'; " +
 
                         "})()");
+                webview_gols.loadUrl("javascript:(function() { " +
+                        "document.getElementsByClassName('_mad')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mgz _mhi _mdj')[0].style.display = 'none';"+
+                        "})()");
             }
 
         });
@@ -271,62 +303,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         webview_gols.loadUrl("https://m.youtube.com/channel/UCYEL0BXeHvw10bPq5xCON_Q/videos");
     }
 
-    private void getTabela() {
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Brasileiro 2015");
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        webview_tabela = (WebView) findViewById(R.id.tabela);
-        webview_tabela.getSettings().setJavaScriptEnabled(true);
-        webview_tabela.setWebViewClient(new myWebClient() { //WebViewClient
-            @Override
-            public void onLoadResource(WebView view, String url) {
-                webview_tabela.loadUrl("javascript:(function() { " +
-                        "document.getElementsByClassName('glb-topo')[0].style.display = 'none'; " +
-
-                        "document.getElementsByClassName('gui-text-section-title tabela-header-titulo')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('simulador simulador-extra-margin')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('legenda-regulamento')[0].style.display = 'none'; " +
-
-                        "document.getElementsByClassName('lista-de-jogos lista-de-jogos-fora-grupo')[0].style.display = 'none'; " +
-
-                        "document.getElementsByClassName('tabela-times-time-link')[0].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[1].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[2].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[3].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[4].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[5].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[6].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[7].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[8].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[9].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[10].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[11].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[12].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[13].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[14].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[15].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[16].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[17].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[18].removeAttribute('href');" +
-                        "document.getElementsByClassName('tabela-times-time-link')[19].removeAttribute('href');" +
-
-                        "document.getElementsByClassName('widget widget-plantao-semantico')[0].style.display = 'none'; " +
-
-                        "document.getElementsByClassName('glb-publicidade-container')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('footer product-color')[0].style.display = 'none'; " +
-                        "})()");
-            }
-        });
-
-        webview_tabela.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
-    }
-
     private void getNoticia() {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("PSC - Notícias");
 
         webview_noticias = (WebView) findViewById(R.id.noticias);
+
+        webview_noticias.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_noticias.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
         webview_noticias.getSettings().setDomStorageEnabled(true);
         webview_noticias.getSettings().setJavaScriptEnabled(true);
         webview_noticias.loadDataWithBaseURL(baseURl, widgetInfo, "text/html", "UTF-8", null);
@@ -338,8 +323,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview_copadobrasil = (WebView) findViewById(R.id.copa_brasil);
+
+        webview_copadobrasil.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webview_copadobrasil.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webview_copadobrasil.getSettings().setJavaScriptEnabled(true);
-        webview_copadobrasil.getSettings().setJavaScriptEnabled(true);
+
         webview_copadobrasil.setWebViewClient(new myWebClient() { //WebViewClient
             @Override
             public void onLoadResource(WebView view, String url) {
@@ -384,10 +372,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         });
 
         webview_copadobrasil.loadUrl("http://globoesporte.globo.com/futebol/copa-do-brasil/index.html#/classificacao-e-jogos");
-    }
-
-    public static boolean isNetworkAvailable(Context context) {
-        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
 
     @Override
@@ -454,6 +438,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Check if the key event was the Back button and if there's history
+        if ((keyCode == android.view.KeyEvent.KEYCODE_BACK)) {
+            if(tabPos == 2 && webview_gols.canGoBack()) {
+                webview_gols.goBack();
+                return true;
+            }
+            if(tabPos == 3 && webview_noticias.canGoBack()) {
+                webview_noticias.goBack();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public class myWebClient extends WebViewClient {
