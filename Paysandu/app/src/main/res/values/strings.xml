@@ -19,4 +19,6 @@
     <string name="no_connection">Confira sua conexão e tente novamente</string>
     <string name="action_noticias">Notícias</string>
     <string name="action_elenco">Elenco</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1719433756795674/3505573942</string>
 </resources>

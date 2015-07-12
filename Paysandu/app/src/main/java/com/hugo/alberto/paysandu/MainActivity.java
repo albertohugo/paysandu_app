@@ -24,6 +24,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
@@ -58,6 +60,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         setContentView(R.layout.activity_main);
 
 
+
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
 
@@ -65,8 +68,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
-
-
 
         final ActionBar actionBar = getSupportActionBar();
 
@@ -84,8 +85,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
-
-
             }
         });
 
@@ -96,31 +95,64 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        menu.getItem(0).setVisible(false);
-        return false;
+        //menu.getItem(0).setVisible(false);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-/*
-        if (id == R.id.action_copa_do_brasil) {
 
-            Intent intent = new Intent
-                    (getApplicationContext(), .class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+        if (id == R.id.action_refresh) {
+            if(tabPos == 0){
+                setContentView(R.layout.tabela_view);
+                getTabela();
+
+                AdView mAdView_tabela = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest_tabela = new AdRequest.Builder().build();
+                mAdView_tabela.loadAd(adRequest_tabela);
+            }
+            if(tabPos == 1){
+                setContentView(R.layout.jogos_view);
+                getJogos();
+
+                AdView mAdView_jogos = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest_jogos = new AdRequest.Builder().build();
+                mAdView_jogos.loadAd(adRequest_jogos);
+            }
+            if(tabPos == 2){
+                setContentView(R.layout.gols_view);
+                getGols();
+
+                AdView mAdView_gols = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest_gols = new AdRequest.Builder().build();
+                mAdView_gols.loadAd(adRequest_gols);
+            }
+            if(tabPos == 3){
+                setContentView(R.layout.noticias_view);
+                getNoticia();
+
+                AdView mAdView_noticias = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest_noticias = new AdRequest.Builder().build();
+                mAdView_noticias.loadAd(adRequest_noticias);
+            }
+            if(tabPos == 4){
+                setContentView(R.layout.copa_brasil_view);
+                getCopaDoBrasil();
+
+                AdView mAdView_copa_do_brasil = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest_copa_do_brasil = new AdRequest.Builder().build();
+                mAdView_copa_do_brasil.loadAd(adRequest_copa_do_brasil);
+            }
+
             return true;
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -133,22 +165,42 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case 0:
                     setContentView(R.layout.tabela_view);
                     getTabela();
+
+                    AdView mAdView_tabela = (AdView) findViewById(R.id.adView);
+                    AdRequest adRequest_tabela = new AdRequest.Builder().build();
+                    mAdView_tabela.loadAd(adRequest_tabela);
                 break;
             case 1:
                     setContentView(R.layout.jogos_view);
                     getJogos();
+
+                    AdView mAdView_jogos = (AdView) findViewById(R.id.adView);
+                    AdRequest adRequest_jogos = new AdRequest.Builder().build();
+                    mAdView_jogos.loadAd(adRequest_jogos);
                 break;
             case 2:
                     setContentView(R.layout.gols_view);
                     getGols();
+
+                    AdView mAdView_gols = (AdView) findViewById(R.id.adView);
+                    AdRequest adRequest_gols = new AdRequest.Builder().build();
+                    mAdView_gols.loadAd(adRequest_gols);
                 break;
             case 3:
                     setContentView(R.layout.noticias_view);
                     getNoticia();
+
+                    AdView mAdView_noticias = (AdView) findViewById(R.id.adView);
+                    AdRequest adRequest_noticias = new AdRequest.Builder().build();
+                    mAdView_noticias.loadAd(adRequest_noticias);
                 break;
             case 4:
                     setContentView(R.layout.copa_brasil_view);
                     getCopaDoBrasil();
+
+                    AdView mAdView_copa_do_brasil = (AdView) findViewById(R.id.adView);
+                    AdRequest adRequest_copa_do_brasil = new AdRequest.Builder().build();
+                    mAdView_copa_do_brasil.loadAd(adRequest_copa_do_brasil);
                 break;
         }
         mViewPager.setCurrentItem(tab.getPosition());
@@ -156,7 +208,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private void getTabela() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Brasileiro 2015");
+        actionBar.setTitle("Paysandu App");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview_tabela = (WebView) findViewById(R.id.tabela);
@@ -217,7 +269,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private void getJogos() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Brasileiro 2015");
+        actionBar.setTitle("Paysandu App");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview_jogos = (WebView) findViewById(R.id.jogos);
@@ -286,7 +338,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private void getGols() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Brasileiro 2015");
+        actionBar.setTitle("Paysandu App");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview_gols = (WebView) findViewById(R.id.gols);
@@ -325,7 +377,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private void getNoticia() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Notícias");
+        actionBar.setTitle("Paysandu App");
 
         webview_noticias = (WebView) findViewById(R.id.noticias);
 
@@ -344,7 +396,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     public void getCopaDoBrasil() {
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("PSC - Jogos da Copa do Brasil");
+        actionBar.setTitle("Paysandu App");
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview_copadobrasil = (WebView) findViewById(R.id.copa_brasil);
