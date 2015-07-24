@@ -261,7 +261,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('footer product-color')[0].style.display = 'none'; " +
                         "})()");
             }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    view.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    view.setVisibility(View.INVISIBLE);
+                }
+
         });
+
 
 
         webview_tabela.loadUrl("http://globoesporte.globo.com/futebol/brasileirao-serie-b/");
@@ -330,6 +341,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "document.getElementsByClassName('footer product-color')[0].style.display = 'none'; " +
                         "})()");
             }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    view.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    view.setVisibility(View.INVISIBLE);
+                }
+
 
         });
 
@@ -356,20 +377,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             public void onLoadResource(WebView view, String url) {
 
                 webview_gols.loadUrl("javascript:(function() { " +
-
-                        "document.getElementsByClassName('_meh')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('_mlf')[0].style.display = 'none'; " +
-                       "document.getElementsByClassName('_mhv _miv')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('_myy')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('_mgz _mhi _mdj')[0].style.display = 'none'; " +
-
+                        "document.getElementsByClassName('_mfh')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mfi  _mby')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mdz')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('_mlv _mmv')[0].style.display = 'none'; " +
                         "})()");
-                webview_gols.loadUrl("javascript:(function() { " +
-                        "document.getElementsByClassName('_mad')[0].style.display = 'none'; " +
-                        "document.getElementsByClassName('_mgz _mhi _mdj')[0].style.display = 'none';"+
-                        "})()");
-            }
+               }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    view.setVisibility(View.VISIBLE);
+                }
 
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    view.setVisibility(View.INVISIBLE);
+                }
         });
 
         webview_gols.loadUrl("https://m.youtube.com/channel/UCYEL0BXeHvw10bPq5xCON_Q/videos");
@@ -451,6 +473,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                         "})()");
 
+            }
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                view.setVisibility(View.INVISIBLE);
             }
         });
 
